@@ -141,3 +141,16 @@
         при што при инпутуте 360,20,30  if (min == 0 && sec == 0) паѓа условот и оди во else
         каде ќе фрли исклучок ако пораката е The angle is greater then the maximum и успешно ни е поминат тест случајот.
  
+ И за на крај последен тест случај ни е прикажан со кодот  Angle angl6 = new Angle(380,20,30);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl6)));
+        assertTrue(ex.getMessage().contains("The angle is smaller or greater then the minimum"));
+        И овој тест случај се извршува со при пагање на  else if (deg == 360) условот и за зададените врдност 0,20,30 успешно ќе го фати исклучокот и ќе заврши програмата при што нема да биде вратена вредноста.
+        
+        При MultipleCondion при парчево код  RuntimeException ex;
+        Angle angle = new Angle(40,-1,20);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angle)));
+        assertTrue(ex.getMessage().contains("The minutes of the angle are not valid!"));
+
+        Angle angl2 = new Angle(40,60,20);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl2)));
+        assertTrue(ex.getMessage().contains("The minutes of the angle are not valid!"));
