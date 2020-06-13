@@ -27,78 +27,117 @@
 
 -Објаснување на напишаните unit tests 
 
- private List<Double> createList(Double... element){
-        return new ArrayList<Double>(Arrays.asList(element));
+    List<Angle> createList(Angle... element){
+        return new ArrayList<Angle>(Arrays.asList(element));
     }
     @Test
-    void everyStatementAndEveryBranchTest() {
+    void everyStatementTest(){
         RuntimeException ex;
-        ex=assertThrows(RuntimeException.class,()->LabExample.sumOfPricesGreaterThan(null,5d));
-        assertTrue(ex.getMessage().contains("List of prices is not ok"));
+        Angle angle = new Angle(40,60,20);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angle)));
+        assertTrue(ex.getMessage().contains("The minutes of the angle are not valid!"));
 
-        ex=assertThrows(RuntimeException.class,()->LabExample.sumOfPricesGreaterThan(createList(1d,3d,-2d),2d));
-        assertTrue(ex.getMessage().contains("Negative price is not allowed"));
+        Angle angl2 = new Angle(40,40,60);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl2)));
+        assertTrue(ex.getMessage().contains("The seconds of the angle are not valid"));
 
-        assertEquals(9d,LabExample.sumOfPricesGreaterThan(createList(1d,4d,5d),2d));
-    }
+        Angle angl3 = new Angle(40,40,50);
+        List<Integer> nova2 = SILab2.function(createList(angl3));
+//        int indeks1 = nova2.get(0);
+        //assertEquals(146450,indeks1);
+        for (Integer x: nova2){
+            assertEquals(146450, x);
+        }
 
-    @Test
-    void testEveryPath(){
-        RuntimeException ex;
-        //1,2,3,12
-        ex =assertThrows(RuntimeException.class,
-                ()->LabExample.sumOfPricesGreaterThan(null,5d));
-        assertTrue(ex.getMessage().contains("List of prices is not ok"));
-        //1,2,4,5.1,5.2,6,7,12
-        ex=assertThrows(RuntimeException.class,
-                ()->LabExample.sumOfPricesGreaterThan(createList(-3d,5d),2d));
-        assertTrue(ex.getMessage().contains("Negative price is not allowed"));
+                Angle angl4 = new Angle(360,0,0);
+        List<Integer> nova = SILab2.function(createList(angl4));
+//        int indeks2 = nova.get(0);
+//            assertEquals(1296000,indeks2);
+        for (Integer x: nova){
+            assertEquals(1296000, x);
+        }
 
-        //1,2,4,5.1,5.2,11,12 - can't happen
 
-        //1,2,4,5.1,(5.2,6,8,10,5.3,5.2),11,12
-        assertEquals(0,LabExample.sumOfPricesGreaterThan(
-                createList(2d,3d),5d));
+        Angle angle5 = new Angle(360,20,30);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angle5)));
+        assertTrue(ex.getMessage().contains("The angle is greater then the maximum"));
 
-        //1,2,4,5.1,(5.2,6,8,9,10,5.3,5.2),11,12
-        assertEquals(5d,LabExample.sumOfPricesGreaterThan(
-                createList(2d,3d),1d));
-        //mixed
-
-        //1,2,4,5.1,(5.2,6,8,9,10,5.3,5.2)6,7,12
-        ex= assertThrows(RuntimeException.class,()->LabExample.sumOfPricesGreaterThan(
-                createList(2d,3d,-4d),1d));
-        assertTrue(ex.getMessage().contains("Negative price is not allowed"));
-
-        //1,2,4,5.1,(5.2,6,8,10,5.3,5.2)6,7,12
-        ex= assertThrows(RuntimeException.class,()->LabExample.sumOfPricesGreaterThan(
-                createList(2d,3d,-4d),5d));
-        assertTrue(ex.getMessage().contains("Negative price is not allowed"));
-        //mixed
-        ex= assertThrows(RuntimeException.class,()->LabExample.sumOfPricesGreaterThan(
-                createList(2d,4d,-4d),2d));
-        assertTrue(ex.getMessage().contains("Negative price is not allowed"));
+        Angle angl6 = new Angle(380,20,30);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl6)));
+        assertTrue(ex.getMessage().contains("The angle is smaller or greater then the minimum"));
     }
 
     @Test
-    void multipleConditionsTest(){
-
-       //if (prices==null || prices.isEmpty())
-        //T //F
-
-        //F //T
-
-        //F //F
+    void MultipleCondititon(){
+//        if (deg >= 0 && deg < 360)
+//        T && T
+//        T && F
+//        F && T
+//        if (min < 0 || min > 59)
+//        T || F
+//        F || T
+//        F || F
         RuntimeException ex;
-        ex=assertThrows(RuntimeException.class,
-                ()->LabExample.sumOfPricesGreaterThan(null,5d));
-        assertTrue(ex.getMessage().contains("List of prices is not ok"));
+        Angle angle = new Angle(40,-1,20);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angle)));
+        assertTrue(ex.getMessage().contains("The minutes of the angle are not valid!"));
 
-        ex=assertThrows(RuntimeException.class,
-                ()->LabExample.sumOfPricesGreaterThan(Collections.emptyList(),5d));
-        assertTrue(ex.getMessage().contains("List of prices is not ok"));
+        Angle angl2 = new Angle(40,60,20);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl2)));
+        assertTrue(ex.getMessage().contains("The minutes of the angle are not valid!"));
 
-        assertEquals(5d,LabExample.sumOfPricesGreaterThan(
-                createList(2d,3d),1d));
+        //        if (sec < 0 || sec > 59)
+//        T || F
+//        F || T
+//        F || F
+        Angle angl3 = new Angle(40,50,-5);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl3)));
+        assertTrue(ex.getMessage().contains("The seconds of the angle are not valid"));
+
+        Angle angl4 = new Angle(40,50,60);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl4)));
+        assertTrue(ex.getMessage().contains("The seconds of the angle are not valid"));
+
+
+//        if (min == 0 && sec == 0)
+//        T && T
+//        T && F
+//        F && T
+
+        Angle angl5 = new Angle(360,0,0);
+        List<Integer> nova = SILab2.function(createList(angl5));
+        for (Integer x: nova){
+            assertEquals(1296000, x);
+        }
+
+        Angle angl6 = new Angle(360,0,5);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl6)));
+        assertTrue(ex.getMessage().contains("The angle is greater then the maximum"));
+
+        Angle angl7 = new Angle(360,10,0);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl7)));
+        assertTrue(ex.getMessage().contains("The angle is greater then the maximum"));
     }
-Горе ми е прикажан кодот од тест случаевите кој ги тестирав за да увидам дали успешно ми работи се што имам досега сработено
+Горе ми е прикажан кодот од тест случаевите кој ги тестирав за да увидам дали успешно ми работи се што имам досега сработено.
+Кај тест случајот за everyStatement прво од Креирам објект од класата angle со вредност 40,60,20 со кој во RuntimeException со кодот ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angle))); го ставам резултатот од асертот од исклучокот ако се случил во листата од агли и потоа во кодот assertTrue(ex.getMessage().contains("The minutes of the angle are not valid!")); дали ја прикажува оваа порака, ако ја прикажува оваа порака тогаш успешно ќе ни помине тестот кој во мојов случај успешто поминува.
+Потоа со парчето код    Angle angl2 = new Angle(40,40,60);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl2)));
+        assertTrue(ex.getMessage().contains("The seconds of the angle are not valid")); исто така права втор тест случај кој го зададов и оваа функционира како претходниот парче код и овој нема да го прикажи резултатот на сумата туку ќе заврши програмата и ќе фрли исклучок. Со парчево код Angle angl3 = new Angle(40,40,50);
+        List<Integer> nova2 = SILab2.function(createList(angl3));
+        for (Integer x: nova2){
+            assertEquals(146450, x);
+ } имаме успешто пресметана сума и вратена со вредност 40,40,50 и со assertEquals(146450, x); ја проверувам дали 146450 е еднакво со x т.е со вредностите што ги зададов за овој тест случај кој поминуваат како шо треба и нема да се фрли исклучок туку до крај ќе ја пресмета сумата и ќе ја врати.
+ Тој ни е третитот тест случај. Четврт тест случај ни е случај кој исто кој ни враќа сумата од функцијата и ни поминува тест случајот успешто со кодот   Angle angl4 = new Angle(360,0,0);
+        List<Integer> nova = SILab2.function(createList(angl4));
+
+        for (Integer x: nova){
+            assertEquals(1296000, x);
+        }
+кој се извршува бидејќи поминува условот за  if (min == 0 && sec == 0) пру вредности 360,0,0.
+Пети тест случај ми е прикажан со годот 
+        Angle angle5 = new Angle(360,20,30);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angle5)));
+        assertTrue(ex.getMessage().contains("The angle is greater then the maximum"));
+        при што при инпутуте 360,20,30  if (min == 0 && sec == 0) паѓа условот и оди во else
+        каде ќе фрли исклучок ако пораката е The angle is greater then the maximum и успешно ни е поминат тест случајот.
+ 
