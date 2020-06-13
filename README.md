@@ -25,4 +25,79 @@
 Потоа нареден дел ние if (sec < 0 || sec > 59) каде имам инпут 40,50,-5 кој важи за T || F, потоа инпут 40,50,60 ков важи за F || T.
 И за на крај последен таков сличај ни е if (min == 0 && sec == 0) за T && T, инпут ми е 360,0,0 и други многу кој можат да го исполнат одреден дел од условите за Multiple condtition. 
 
-Објаснување на напишаните unit tests ... ...
+-Објаснување на напишаните unit tests 
+
+ private List<Double> createList(Double... element){
+        return new ArrayList<Double>(Arrays.asList(element));
+    }
+    @Test
+    void everyStatementAndEveryBranchTest() {
+        RuntimeException ex;
+        ex=assertThrows(RuntimeException.class,()->LabExample.sumOfPricesGreaterThan(null,5d));
+        assertTrue(ex.getMessage().contains("List of prices is not ok"));
+
+        ex=assertThrows(RuntimeException.class,()->LabExample.sumOfPricesGreaterThan(createList(1d,3d,-2d),2d));
+        assertTrue(ex.getMessage().contains("Negative price is not allowed"));
+
+        assertEquals(9d,LabExample.sumOfPricesGreaterThan(createList(1d,4d,5d),2d));
+    }
+
+    @Test
+    void testEveryPath(){
+        RuntimeException ex;
+        //1,2,3,12
+        ex =assertThrows(RuntimeException.class,
+                ()->LabExample.sumOfPricesGreaterThan(null,5d));
+        assertTrue(ex.getMessage().contains("List of prices is not ok"));
+        //1,2,4,5.1,5.2,6,7,12
+        ex=assertThrows(RuntimeException.class,
+                ()->LabExample.sumOfPricesGreaterThan(createList(-3d,5d),2d));
+        assertTrue(ex.getMessage().contains("Negative price is not allowed"));
+
+        //1,2,4,5.1,5.2,11,12 - can't happen
+
+        //1,2,4,5.1,(5.2,6,8,10,5.3,5.2),11,12
+        assertEquals(0,LabExample.sumOfPricesGreaterThan(
+                createList(2d,3d),5d));
+
+        //1,2,4,5.1,(5.2,6,8,9,10,5.3,5.2),11,12
+        assertEquals(5d,LabExample.sumOfPricesGreaterThan(
+                createList(2d,3d),1d));
+        //mixed
+
+        //1,2,4,5.1,(5.2,6,8,9,10,5.3,5.2)6,7,12
+        ex= assertThrows(RuntimeException.class,()->LabExample.sumOfPricesGreaterThan(
+                createList(2d,3d,-4d),1d));
+        assertTrue(ex.getMessage().contains("Negative price is not allowed"));
+
+        //1,2,4,5.1,(5.2,6,8,10,5.3,5.2)6,7,12
+        ex= assertThrows(RuntimeException.class,()->LabExample.sumOfPricesGreaterThan(
+                createList(2d,3d,-4d),5d));
+        assertTrue(ex.getMessage().contains("Negative price is not allowed"));
+        //mixed
+        ex= assertThrows(RuntimeException.class,()->LabExample.sumOfPricesGreaterThan(
+                createList(2d,4d,-4d),2d));
+        assertTrue(ex.getMessage().contains("Negative price is not allowed"));
+    }
+
+    @Test
+    void multipleConditionsTest(){
+
+       //if (prices==null || prices.isEmpty())
+        //T //F
+
+        //F //T
+
+        //F //F
+        RuntimeException ex;
+        ex=assertThrows(RuntimeException.class,
+                ()->LabExample.sumOfPricesGreaterThan(null,5d));
+        assertTrue(ex.getMessage().contains("List of prices is not ok"));
+
+        ex=assertThrows(RuntimeException.class,
+                ()->LabExample.sumOfPricesGreaterThan(Collections.emptyList(),5d));
+        assertTrue(ex.getMessage().contains("List of prices is not ok"));
+
+        assertEquals(5d,LabExample.sumOfPricesGreaterThan(
+                createList(2d,3d),1d));
+    }
