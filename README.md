@@ -11,6 +11,11 @@ Control Flow Graph
 
 Тест случаи според критериумот Every statement ....
 
+![](/kriteria/pic1.png)
+
 Тест случаи според критериумот Multiple condtition ....
+
+
+![](/kriteria/pic2.png)
 
 Објаснување на напишаните unit tests ... ...
