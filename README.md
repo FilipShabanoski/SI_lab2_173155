@@ -146,7 +146,8 @@
         assertTrue(ex.getMessage().contains("The angle is smaller or greater then the minimum"));
         И овој тест случај се извршува со при пагање на  else if (deg == 360) условот и за зададените врдност 0,20,30 успешно ќе го фати исклучокот и ќе заврши програмата при што нема да биде вратена вредноста.
         
-        При MultipleCondion при парчево код  RuntimeException ex;
+        При MultipleCondion при парчево код:
+        RuntimeException ex;
         Angle angle = new Angle(40,-1,20);
         ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angle)));
         assertTrue(ex.getMessage().contains("The minutes of the angle are not valid!"));
@@ -154,3 +155,29 @@
         Angle angl2 = new Angle(40,60,20);
         ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl2)));
         assertTrue(ex.getMessage().contains("The minutes of the angle are not valid!"));
+        за условот:    
+        if (deg >= 0 && deg < 360)
+        T && T
+        T && F
+        F && T
+        Ови ги тестирав со што само при две T && T имаме влегување во исловот и извршување на кодот при кој што имаме фрлање на исклучокот  со порака "The minutes of the angle are not valid!" и завршува програмата при што имаме еден добар тест случај.
+        Пир тест случајот if (min < 0 || min > 59)
+//        T || F
+//        F || T
+//        F || F
+имеме повеќе варијанти како на пример кодот    Angle angl3 = new Angle(40,50,-5);
+        ex=assertThrows(RuntimeException.class,()->SILab2.function(createList(angl3)));
+        assertTrue(ex.getMessage().contains("The seconds of the angle are not valid")); со што ќе ни фри исклучкот кој ќе го фатиме со инпути 40,50,-5 и ќе заврши програмата без да се пресмета сумата.
+        И за на крај иаме услв 
+//        if (min == 0 && sec == 0)
+//        T && T
+//        T && F
+//        F && T
+Кој се избршува само ако имаме 2 точни услови таков пример ни е    Angle angl5 = new Angle(360,0,0);
+        List<Integer> nova = SILab2.function(createList(angl5));
+        for (Integer x: nova){
+            assertEquals(1296000, x);
+        }
+    со кој ќе се врати пресметаната сума во nova променлибата и задавам вредности 360,0,0 со кој при влез во for циклусот ќе ја според
+    1296000 со онаа од сумата и ако помини сумата на 1296000 ни е еднаква со онаа на nova
+    тогаш успешно ни поминува тест случајот.
